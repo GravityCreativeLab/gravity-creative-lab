@@ -1,0 +1,19 @@
+{
+  "name": "gravity-creative-lab",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Portfolio de Gravity Creative Lab : trou noir WebGL (Three.js) et récit au défilement (GSAP).",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "gsap": "^3.12.5",
+    "three": "^0.169.0"
+  },
+  "devDependencies": {
+    "vite": "^6.0.0"
+  }
+}
