@@ -1,0 +1,33 @@
+/*
+ * Jetons de design — Gravity Creative Lab
+ * La palette vient directement du trou noir : le noir absolu de l'horizon,
+ * la lumière du disque d'accrétion, et le décalage Doppler vers le bleu.
+ */
+:root {
+  /* Couleurs */
+  --void: #000000;        /* l'horizon : un vrai noir, pas un gris foncé */
+  --photon: #f2ece1;      /* texte principal, lumière qui s'échappe */
+  --dust: #8c8797;        /* texte secondaire */
+  --ember: #ff9e4a;       /* bord externe du disque, accent principal */
+  --corona: #ffd9a8;      /* bord interne, états de focus */
+  --blueshift: #8fa8ff;   /* réservé aux rares moments de contraste froid */
+
+  /* Typographie */
+  --font-display: 'Fraunces', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  --font-body: 'Manrope', 'Segoe UI', system-ui, -apple-system, sans-serif;
+
+  --step--1: 0.875rem;
+  --step-0: 1.0625rem;
+  --step-1: 1.3125rem;
+  --step-2: clamp(1.75rem, 1.3rem + 1.6vw, 2.5rem);
+  --step-3: clamp(2.5rem, 1.6rem + 3.4vw, 4.25rem);
+  --step-4: clamp(2.9rem, 1.2rem + 6.4vw, 7rem);
+
+  /* Espacement et mise en page */
+  --gutter: clamp(1.25rem, 4vw, 4rem);
+  --section-space: clamp(6rem, 18vh, 14rem);
+  --measure: 62ch;
+
+  /* Mouvement */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
