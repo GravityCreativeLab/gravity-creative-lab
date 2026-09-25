@@ -1,6 +1,6 @@
 # gravity-creative-lab
 
-Portfolio de Gravity Creative Lab : un trou noir rendu en temps réel (Three.js + shader GLSL) et un récit au défilement piloté par GSAP ScrollTrigger.
+Site de Gravity Creative Lab : une galerie épurée (noir absolu ou blanc pur) dont le grand titre réagit à la gravité, c'est-à-dire à la position de la souris et à la vitesse de défilement.
 
 ## Démarrer
 
@@ -16,51 +16,62 @@ Node.js 18 ou plus récent est requis.
 ## Architecture
 
 ```
-index.html                     Structure de la page, contenu, polices
+index.html                         Page d'accueil (hero, galerie, studio, contact)
 public/favicon.svg
 src/
-  main.js                      Point d'entrée : détection WebGL, init scène + animations
-  scene/
-    BlackHole.js               Renderer Three.js, uniforms, boucle de rendu, resize
-    camera.js                  Modèle de caméra partagé shader ↔ étoiles (à garder synchronisé)
-    shaders/
-      blackhole.vert.glsl      Quad plein écran
-      blackhole.frag.glsl      Lancer de rayons : courbure, disque d'accrétion, Doppler, étoiles
-  orbits/
-    ProjectOrbits.js           Étoiles-projets en orbite képlérienne, survol = ralentissement + nom
-  animations/
-    scroll.js                  Intro du titre + voyage caméra lié au défilement (GSAP)
+  main.js                          Point d'entrée : initialise chaque module
+  modules/
+    gravity-lens/
+      GravityLens.js               Texte HTML redessiné en WebGL, déformé près du curseur
+      motion.js                    Capteur partagé : pointeur, vitesse de défilement
+      lens.vert.glsl
+      lens.frag.glsl               La distorsion (attraction, courbure, étirement)
+    theme.js                       Bascule fond noir / fond blanc
+    media.js                       Vidéos chargées et lues seulement à l'écran
+    stage3d.js                     Conteneurs 3D légers (Three.js chargé à la demande)
+    reveal.js                      Révélation discrète des médias de la galerie
   styles/
-    tokens.css                 Couleurs, typographie, espacements
-    main.css                   Mise en page et composants
+    tokens.css                     Couleurs des deux thèmes, typographie, grille
+    base.css                       Réinitialisation, éléments de base
+    layout.css                     Sections et grille éditoriale 12 colonnes
+    components.css                 En-tête, lentille, cartes projet, médias
 ```
 
-## Piloter le trou noir
+## La lentille gravitationnelle
 
-`BlackHole.params` est l'interface d'animation. GSAP (ou n'importe quel code) peut modifier :
+Ajoutez `data-gravity-lens` sur n'importe quel élément texte (déjà en place sur le titre du hero et sur « Démarrer un projet »). Le texte reste du vrai HTML, lisible et sélectionnable ; un canvas WebGL superposé en affiche une version déformée.
 
-| Paramètre  | Rôle                                         | Valeur de départ |
-|------------|----------------------------------------------|------------------|
-| `distance` | Distance de la caméra (plus petit = plus près) | `24`             |
-| `tilt`     | Inclinaison au-dessus du disque (radians)     | `0.18`           |
-| `glow`     | Intensité du disque d'accrétion               | `1.5`            |
-| `lensing`  | Force de la distorsion gravitationnelle       | `1.35`           |
-| `spin`     | Vitesse de rotation du disque                 | `1`              |
-| `ignition` | Allumage à l'ouverture (0 → 1, animé par GSAP) | `0`              |
+- Plus on fait défiler vite, plus le texte proche du curseur est aspiré, courbé et étiré vers lui.
+- Dès que le mouvement s'arrête, un ressort le ramène à sa forme d'origine, avec un amorti fluide.
+- Au repos, aucun calcul n'est fait.
 
-Exemple : `gsap.to(blackHole.params, { distance: 12, duration: 2 })`.
+Réglages par défaut dans `DEFAULTS` (`GravityLens.js`), ou par élément :
 
-## Étoiles-projets
+```html
+<h1 data-gravity-lens='{"scrollForFull": 2000, "radiusScale": 1.8}'>…</h1>
+```
 
-Chaque `<li class="project" id="...">` de la section Projets devient une étoile en orbite autour du trou noir. Pour ajouter un projet, ajoutez simplement un élément à la liste : titre (`.project__title`) et ligne de description (`.project__meta`) s'affichent au survol, et un clic mène à l'élément correspondant.
+| Réglage            | Rôle                                                      | Défaut |
+|--------------------|-----------------------------------------------------------|--------|
+| `scrollForFull`    | Vitesse de défilement (px/s) pour la distorsion maximale  | 2800   |
+| `pointerInfluence` | Part de distorsion due au seul mouvement de la souris     | 0.25   |
+| `radiusScale`      | Rayon d'influence, en multiple de la taille du texte      | 1.5    |
+| `stiffness`        | Raideur du ressort de retour                              | 120    |
+| `damping`          | Amortissement (plus bas = plus de rebond)                 | 14     |
 
-Réglages dans `src/orbits/ProjectOrbits.js` : rayons des orbites (`radius`), inclinaisons, vitesse (`omega`, 3e loi de Kepler) et ralentissement au survol (`SLOW_SPEED`).
+## Ajouter un projet à la galerie
 
-## Performance et accessibilité
+Chaque projet est un `<article class="work">` placé sur la grille avec `--span` (largeur, sur 12 colonnes) et `--start` (colonne de départ). Le média réserve sa place avec `--ratio`. Les trois types de médias (image, vidéo, 3D) sont décrits en commentaire dans `index.html`.
 
-- Le shader est rendu en résolution réduite (`quality` : 0.85 sur ordinateur, 0.6 sur mobile), à ajuster dans `src/main.js`.
-- La boucle de rendu se met en pause quand l'onglet est masqué.
-- `prefers-reduced-motion` : image fixe, pas d'animation au défilement.
-- Sans WebGL : fond statique en CSS, les étoiles orbitent quand même.
-- Au toucher : un premier tap affiche le nom du projet, un second l'ouvre.
-- La couche d'étoiles est masquée aux lecteurs d'écran ; la liste des projets reste la version accessible.
+## Typographie
+
+- **Titre :** Bodoni Moda (Google Fonts), figée sur sa taille optique d'affichage.
+- **Texte :** Instrument Sans (Google Fonts).
+- **Alternative sans-sérif monumentale :** Anton (Google Fonts). Remplacez la police dans le lien Google Fonts de `index.html` et dans `--font-display` (`tokens.css`).
+
+## Accessibilité et performance
+
+- `prefers-reduced-motion` : ni distorsion, ni révélation, ni lecture automatique des vidéos.
+- Sans WebGL : le titre HTML s'affiche normalement.
+- Three.js n'est téléchargé que si un conteneur 3D approche de l'écran.
+- Les lentilles, vidéos et scènes 3D hors de l'écran ne consomment rien.

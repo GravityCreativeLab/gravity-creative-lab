@@ -1,31 +1,33 @@
 <!doctype html>
-<html lang="fr">
+<html lang="fr" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#000000" />
-    <meta name="description" content="Gravity Creative Lab, studio de création visuelle : identités, images et expériences web." />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Gravity Creative Lab, studio de création : branding, web et product design, motion et 3D." />
     <title>Gravity Creative Lab</title>
 
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Thème appliqué avant l'affichage : pas de flash de la mauvaise couleur. -->
+    <script>
+      (function () {
+        var saved = null;
+        try { saved = localStorage.getItem('gcl-theme'); } catch (e) {}
+        var prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+        document.documentElement.dataset.theme = saved || (prefersLight ? 'light' : 'dark');
+      })();
+    </script>
 
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Bodoni Moda figée sur sa taille optique « affichage » (96) : déliés les plus fins. -->
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..600,0..100,0..1&family=Manrope:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@96,400;96,500&family=Instrument+Sans:wght@400;500&display=swap"
     />
   </head>
 
   <body>
     <a class="skip-link" href="#contenu">Aller au contenu</a>
-
-    <!-- Scène WebGL : le trou noir (Three.js) -->
-    <canvas id="void" aria-hidden="true"></canvas>
-    <div class="veil" aria-hidden="true"></div>
-
-    <!-- Étoiles-projets en orbite, générées depuis la liste #projets -->
-    <div class="orbits" aria-hidden="true"></div>
 
     <header class="site-header">
       <a class="wordmark" href="#top">Gravity Creative Lab</a>
@@ -35,92 +37,158 @@
           <li><a href="#studio">Studio</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false">Fond blanc</button>
       </nav>
     </header>
 
     <main class="page" id="contenu">
+      <!-- Hero : le titre réagit à la souris et à la vitesse de défilement (data-gravity-lens). -->
       <section class="hero" id="top">
-        <div class="hero__inner">
-          <h1 class="hero__title">
-            <span class="hero__line">Des idées assez denses</span>
-            <span class="hero__line">pour courber la lumière.</span>
-          </h1>
-          <p class="hero__lede">
-            Studio de création visuelle. Identités, images et expériences web qui attirent le regard et le retiennent.
-          </p>
-          <p class="hero__hint">Faites défiler pour vous approcher</p>
-        </div>
-      </section>
-
-      <section class="section" id="studio" aria-labelledby="studio-title">
-        <div class="section__inner">
-          <h2 id="studio-title">Le studio</h2>
-          <!-- TODO : remplacer par la présentation réelle du studio -->
-          <p>
-            Gravity Creative Lab conçoit des univers visuels pour les marques qui veulent qu'on s'arrête sur elles.
-            Stratégie, direction artistique et développement réunis dans une même équipe.
-          </p>
-          <p>
-            Chaque projet commence par une question simple : qu'est-ce qui rend cette marque impossible à ignorer ?
-          </p>
-        </div>
-      </section>
-
-      <section class="section" id="projets" aria-labelledby="projets-title">
-        <div class="section__inner">
-          <h2 id="projets-title">Projets</h2>
-          <!--
-            TODO : projets fictifs, à remplacer par les études de cas.
-            Chaque élément .project avec un id devient une étoile en orbite
-            autour du trou noir (titre + ligne .project__meta au survol).
-          -->
-          <ul class="projects">
-            <li class="project" id="projet-alpha">
-              <h3 class="project__title">Projet Alpha</h3>
-              <p class="project__meta">Identité visuelle, site web</p>
-              <span class="project__year">2026</span>
-            </li>
-            <li class="project" id="projet-beta">
-              <h3 class="project__title">Projet Bêta</h3>
-              <p class="project__meta">Direction artistique, campagne</p>
-              <span class="project__year">2026</span>
-            </li>
-            <li class="project" id="projet-gamma">
-              <h3 class="project__title">Projet Gamma</h3>
-              <p class="project__meta">Expérience interactive</p>
-              <span class="project__year">2025</span>
-            </li>
-            <li class="project" id="projet-delta">
-              <h3 class="project__title">Projet Delta</h3>
-              <p class="project__meta">Motion design</p>
-              <span class="project__year">2025</span>
-            </li>
-            <li class="project" id="projet-epsilon">
-              <h3 class="project__title">Projet Epsilon</h3>
-              <p class="project__meta">Packaging, édition</p>
-              <span class="project__year">2025</span>
-            </li>
-            <li class="project" id="projet-zeta">
-              <h3 class="project__title">Projet Zêta</h3>
-              <p class="project__meta">Identité sonore et visuelle</p>
-              <span class="project__year">2024</span>
-            </li>
+        <h1 class="hero__title" data-gravity-lens>Gravity Creative Lab</h1>
+        <div class="hero__footer">
+          <p class="hero__lede">Studio de création. Nous donnons du poids aux marques, de l'identité à l'écran.</p>
+          <ul class="hero__disciplines" aria-label="Spécialités">
+            <li>Branding</li>
+            <li>Web &amp; Product Design</li>
+            <li>Motion &amp; 3D</li>
           </ul>
         </div>
       </section>
 
-      <section class="section horizon" id="contact" aria-labelledby="contact-title">
-        <div class="section__inner">
-          <h2 id="contact-title">Franchir l'horizon</h2>
-          <p>Un projet en tête ? Parlons-en. Nous répondons sous 48 heures.</p>
-          <!-- TODO : remplacer par l'adresse e-mail réelle -->
-          <a class="cta" href="mailto:hello@gravitycreativelab.com">Écrire au studio</a>
+      <!--
+        Galerie de projets.
+        Chaque .work se place sur la grille de 12 colonnes avec --span (largeur)
+        et --start (colonne de départ). --ratio réserve la place du média.
+
+        Types de média, à mettre dans .media :
+          Image : <img class="media__asset" src="/images/projet.jpg" alt="…" loading="lazy" />
+          Vidéo : <video class="media__asset" data-src="/videos/projet.mp4" poster="/images/projet.jpg"
+                         muted loop playsinline preload="none"></video>
+          3D    : <div class="media__stage" data-stage data-model="/models/projet.glb"></div>
+                  (sans data-model : objet de démonstration)
+
+        TODO : projets fictifs, à remplacer par les vrais.
+      -->
+      <section class="section" id="projets" aria-labelledby="projets-titre">
+        <h2 class="section__heading" id="projets-titre">Sélection</h2>
+
+        <div class="grid">
+          <article class="work" style="--span: 7">
+            <a class="work__link" href="#projet-alpha">
+              <div class="media media--empty" style="--ratio: 4 / 5">
+                <span class="media__placeholder">Image à venir</span>
+              </div>
+              <div class="work__caption">
+                <h3 class="work__title">Projet Alpha</h3>
+                <p class="work__meta">Branding</p>
+                <span class="work__year">2026</span>
+              </div>
+            </a>
+          </article>
+
+          <article class="work" style="--start: 9; --span: 4">
+            <a class="work__link" href="#projet-beta">
+              <div class="media media--empty" style="--ratio: 3 / 4">
+                <span class="media__placeholder">Image à venir</span>
+              </div>
+              <div class="work__caption">
+                <h3 class="work__title">Projet Bêta</h3>
+                <p class="work__meta">Web &amp; Product Design</p>
+                <span class="work__year">2026</span>
+              </div>
+            </a>
+          </article>
+
+          <article class="work" style="--span: 12">
+            <a class="work__link" href="#projet-gamma">
+              <div class="media media--empty" style="--ratio: 16 / 9">
+                <span class="media__placeholder">Vidéo à venir</span>
+              </div>
+              <div class="work__caption">
+                <h3 class="work__title">Projet Gamma</h3>
+                <p class="work__meta">Motion &amp; 3D</p>
+                <span class="work__year">2025</span>
+              </div>
+            </a>
+          </article>
+
+          <article class="work" style="--span: 5">
+            <a class="work__link" href="#projet-delta">
+              <div class="media" style="--ratio: 1 / 1">
+                <div class="media__stage" data-stage></div>
+              </div>
+              <div class="work__caption">
+                <h3 class="work__title">Projet Delta</h3>
+                <p class="work__meta">Motion &amp; 3D</p>
+                <span class="work__year">2025</span>
+              </div>
+            </a>
+          </article>
+
+          <article class="work" style="--start: 7; --span: 6">
+            <a class="work__link" href="#projet-epsilon">
+              <div class="media media--empty" style="--ratio: 4 / 5">
+                <span class="media__placeholder">Image à venir</span>
+              </div>
+              <div class="work__caption">
+                <h3 class="work__title">Projet Epsilon</h3>
+                <p class="work__meta">Branding</p>
+                <span class="work__year">2025</span>
+              </div>
+            </a>
+          </article>
+
+          <article class="work" style="--start: 3; --span: 8">
+            <a class="work__link" href="#projet-zeta">
+              <div class="media media--empty" style="--ratio: 3 / 2">
+                <span class="media__placeholder">Image à venir</span>
+              </div>
+              <div class="work__caption">
+                <h3 class="work__title">Projet Zêta</h3>
+                <p class="work__meta">Web &amp; Product Design</p>
+                <span class="work__year">2024</span>
+              </div>
+            </a>
+          </article>
         </div>
+      </section>
+
+      <section class="section" id="studio" aria-labelledby="studio-titre">
+        <h2 class="section__heading" id="studio-titre">Studio</h2>
+        <div class="grid">
+          <!-- TODO : remplacer par la présentation réelle du studio. -->
+          <p class="studio__statement">
+            Nous concevons des identités et des expériences qui retiennent l'attention, du logo à l'interface, de l'image fixe à la 3D.
+          </p>
+          <dl class="studio__disciplines">
+            <div class="discipline">
+              <dt>Branding</dt>
+              <dd>Stratégie de marque, identité visuelle, systèmes graphiques.</dd>
+            </div>
+            <div class="discipline">
+              <dt>Web &amp; Product Design</dt>
+              <dd>Sites, applications et interfaces, de la conception au prototype.</dd>
+            </div>
+            <div class="discipline">
+              <dt>Motion &amp; 3D</dt>
+              <dd>Animation, films de marque, objets et scènes en 3D.</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="section contact" id="contact" aria-labelledby="contact-titre">
+        <!-- TODO : remplacer par l'adresse e-mail réelle. -->
+        <h2 class="contact__title" id="contact-titre" data-gravity-lens>
+          <a href="mailto:hello@gravitycreativelab.com">Démarrer un projet</a>
+        </h2>
+        <p class="contact__details">hello@gravitycreativelab.com, réponse sous 48 heures.</p>
       </section>
     </main>
 
     <footer class="site-footer">
       <p>© <span data-year>2026</span> Gravity Creative Lab</p>
+      <p><a href="#top">Haut de page</a></p>
     </footer>
 
     <script type="module" src="/src/main.js"></script>
