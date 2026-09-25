@@ -1,0 +1,164 @@
+/*
+ * Mise en page : une galerie éditoriale sur 12 colonnes.
+ * Chaque bloc de contenu choisit sa largeur (--span) et son décalage (--start),
+ * ce qui permet des compositions asymétriques sans nouvelles classes.
+ */
+
+.page {
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: var(--section-space) 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+  column-gap: var(--column-gap);
+  row-gap: clamp(3.5rem, 8vw, 7rem);
+  align-items: start;
+}
+
+.grid > * {
+  grid-column: var(--start, auto) / span var(--span, 12);
+}
+
+.section__heading {
+  margin: 0 0 clamp(2.5rem, 6vw, 5rem);
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+/* ---------- Hero ---------- */
+
+.hero {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-block: 8rem clamp(2rem, 6vh, 4rem);
+}
+
+.hero__title {
+  position: relative; /* référence pour le canvas de la lentille */
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-monument);
+  font-weight: 500;
+  line-height: 0.86;
+  letter-spacing: -0.035em;
+}
+
+.hero__footer {
+  display: grid;
+  grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+  column-gap: var(--column-gap);
+  margin-top: clamp(2.5rem, 6vh, 4.5rem);
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+}
+
+.hero__lede {
+  grid-column: 1 / span 5;
+  margin: 0;
+  max-width: 34ch;
+  font-size: var(--text-lg);
+  line-height: 1.4;
+}
+
+.hero__disciplines {
+  grid-column: 8 / span 5;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--muted);
+}
+
+/* ---------- Studio ---------- */
+
+.studio__statement {
+  --span: 8;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.studio__disciplines {
+  --start: 7;
+  --span: 6;
+  margin: 0;
+}
+
+.discipline {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: 1.5rem;
+  padding-block: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.discipline dt {
+  font-size: var(--text-lg);
+}
+
+.discipline dd {
+  margin: 0;
+  color: var(--muted);
+  max-width: var(--measure);
+}
+
+/* ---------- Contact ---------- */
+
+.contact {
+  padding-bottom: var(--section-space);
+}
+
+.contact__title {
+  position: relative;
+  margin: 0 0 2rem;
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 11vw, 12rem);
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+}
+
+.contact__title a {
+  text-decoration: none;
+}
+
+.contact__details {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 760px) {
+  .grid > *,
+  .studio__statement,
+  .studio__disciplines {
+    grid-column: 1 / -1;
+  }
+
+  .hero__lede,
+  .hero__disciplines {
+    grid-column: 1 / -1;
+  }
+
+  .hero__disciplines {
+    margin-top: 1.5rem;
+  }
+
+  .discipline {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}

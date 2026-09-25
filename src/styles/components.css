@@ -1,0 +1,177 @@
+/* ---------- En-tête ---------- */
+
+/* mix-blend-mode: difference → toujours lisible, sur noir, sur blanc et sur les images. */
+.site-header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 10;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1.25rem var(--gutter);
+  color: #fff;
+  mix-blend-mode: difference;
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+
+.site-nav {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(1rem, 3vw, 2.5rem);
+}
+
+.site-nav ul {
+  display: flex;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-nav a,
+.theme-toggle {
+  font-size: var(--text-sm);
+  text-decoration: none;
+}
+
+.site-nav a:hover,
+.theme-toggle:hover {
+  text-decoration: underline;
+}
+
+.theme-toggle {
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+/* ---------- Lentille gravitationnelle ---------- */
+
+.gravity-lens__canvas {
+  position: absolute;
+  max-width: none; /* il déborde volontairement du titre (voir base.css) */
+  pointer-events: none;
+}
+
+/* Le texte HTML reste en place (sélection, accessibilité) mais c'est le canvas qu'on voit. */
+.gravity-lens.is-lensed {
+  -webkit-text-fill-color: transparent;
+}
+
+/* ---------- Projet (carte de galerie) ---------- */
+
+.work {
+  margin: 0;
+}
+
+.work__link {
+  display: block;
+  text-decoration: none;
+}
+
+.work__caption {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.25rem 1.5rem;
+  padding-top: 1rem;
+}
+
+.work__title {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.work__meta {
+  grid-column: 1;
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.work__year {
+  grid-column: 2;
+  grid-row: 1;
+  font-size: var(--text-sm);
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.work__link:hover .work__title {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+}
+
+/* ---------- Média (image, vidéo, 3D) ---------- */
+
+/*
+ * Le ratio est réservé avant le chargement (--ratio) : aucun saut de mise en page.
+ * Contenus possibles : <img class="media__asset">, <video class="media__asset">,
+ * <div class="media__stage" data-stage>, ou un emplacement vide (.media--empty).
+ */
+.media {
+  position: relative;
+  aspect-ratio: var(--ratio, 4 / 5);
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.media__asset,
+.media__stage,
+.media__stage canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.media__asset {
+  object-fit: cover;
+}
+
+.media--empty {
+  display: grid;
+  place-items: center;
+}
+
+.media__placeholder {
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.media__stage.is-failed::after {
+  content: 'Modèle 3D indisponible';
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+/* ---------- Pied de page ---------- */
+
+.site-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.5rem var(--gutter);
+  border-top: 1px solid var(--line);
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.site-footer p {
+  margin: 0;
+}

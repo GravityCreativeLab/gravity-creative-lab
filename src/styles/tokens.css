@@ -1,33 +1,48 @@
 /*
  * Jetons de design — Gravity Creative Lab
- * La palette vient directement du trou noir : le noir absolu de l'horizon,
- * la lumière du disque d'accrétion, et le décalage Doppler vers le bleu.
+ *
+ * Deux fonds, rien entre les deux : noir absolu ou blanc pur. Aucune couleur
+ * d'accent : ce sont les projets qui apportent la couleur à la page.
  */
+:root,
+[data-theme='dark'] {
+  --bg: #000000;
+  --ink: #f4f2ee;
+  --muted: #8a8883;
+  --line: rgb(244 242 238 / 0.14);
+  --surface: #0d0d0d; /* fond des médias en attente de contenu */
+  color-scheme: dark;
+}
+
+[data-theme='light'] {
+  --bg: #ffffff;
+  --ink: #0a0a0a;
+  --muted: #74726d;
+  --line: rgb(10 10 10 / 0.12);
+  --surface: #f2f2f0;
+  color-scheme: light;
+}
+
 :root {
-  /* Couleurs */
-  --void: #000000;        /* l'horizon : un vrai noir, pas un gris foncé */
-  --photon: #f2ece1;      /* texte principal, lumière qui s'échappe */
-  --dust: #8c8797;        /* texte secondaire */
-  --ember: #ff9e4a;       /* bord externe du disque, accent principal */
-  --corona: #ffd9a8;      /* bord interne, états de focus */
-  --blueshift: #8fa8ff;   /* réservé aux rares moments de contraste froid */
+  /* Typographie
+   * Titre : Bodoni Moda (Google Fonts). Alternative sans-sérif monumentale :
+   * remplacer par 'Anton' ici et dans le lien Google Fonts de index.html. */
+  --font-display: 'Bodoni Moda', 'Bodoni 72', Didot, 'Times New Roman', serif;
+  --font-body: 'Instrument Sans', 'Helvetica Neue', Arial, system-ui, sans-serif;
 
-  /* Typographie */
-  --font-display: 'Fraunces', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
-  --font-body: 'Manrope', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --text-sm: 0.875rem;
+  --text-base: 1.0625rem;
+  --text-lg: 1.375rem;
+  --text-xl: clamp(1.75rem, 1.2rem + 1.8vw, 2.75rem);
+  --text-2xl: clamp(2.5rem, 1.4rem + 4vw, 5rem);
+  --text-monument: clamp(4.25rem, 16vw, 19rem);
 
-  --step--1: 0.875rem;
-  --step-0: 1.0625rem;
-  --step-1: 1.3125rem;
-  --step-2: clamp(1.75rem, 1.3rem + 1.6vw, 2.5rem);
-  --step-3: clamp(2.5rem, 1.6rem + 3.4vw, 4.25rem);
-  --step-4: clamp(2.9rem, 1.2rem + 6.4vw, 7rem);
+  /* Grille */
+  --columns: 12;
+  --gutter: clamp(1.25rem, 3.2vw, 3rem);
+  --column-gap: clamp(1rem, 2vw, 2rem);
+  --section-space: clamp(6rem, 16vh, 12rem);
+  --measure: 58ch;
 
-  /* Espacement et mise en page */
-  --gutter: clamp(1.25rem, 4vw, 4rem);
-  --section-space: clamp(6rem, 18vh, 14rem);
-  --measure: 62ch;
-
-  /* Mouvement */
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
